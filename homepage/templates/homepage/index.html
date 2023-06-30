@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'homepage/style.css' %}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/0c070a03b6.js" crossorigin="anonymous"></script>
+    <script src="{% static 'homepage/js/main.js' %}"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="">Long's Project</a>
+        </div>
+
+        <!-- Items -->
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li class=""><a href=""><span class="glyphicon glyphicon-cd" aria-hidden="true"></span>&nbsp; Albums</a></li>
+                <li class=""><a href=""><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp; Songs</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search" method="get" action="">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="" value="">
+                </div>
+                <button type="submit" class="btn btn-default">Tìm kiếm</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="{% url 'music:addalbum' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Thêm Album
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span aria-hidden="true"></span>&nbsp; Xin chào, {{user.username}}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'homepage:logout' %}">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Đăng xuất
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        
+
+    </div>
+</nav>
+    {% for album in albums %}
+    <div class="col-sm-4 col-lg-2">
+        <div class="thumbnail">
+            <a href="">
+                {% if album.logo != None %}
+                <img src="{{album.logo}}" class="img-responsive">
+                {% else %}
+                    <img src="https://cdn.pixabay.com/photo/2015/05/07/11/02/guitar-756326_960_720.jpg" class="img-responsive">
+                {% endif %}
+            </a>
+            <div class="caption">
+                <h4 style="font-weight: bold;">{{album.title}}</h4>
+                Số ngôi sao: {{album.star}} <i class="fa fa-star" style="color: yellowgreen;" aria-hidden="true"></i>
+                <h6 style="color: blue;">Album của {{user.username}}</h6>
+            </div>
+            <div class="caption">
+                <a href="{% url 'music:deletealbum' album.albumid %}"><i class="fa fa-trash" aria-hidden="true"></i> Xoá</a> &nbsp;&nbsp;
+                <a href="{% url 'music:editalbum' album.albumid %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sửa</a>
+            </div> 
+        </div>
+    </div>  
+    {% endfor %}
+</body>
+</html>
